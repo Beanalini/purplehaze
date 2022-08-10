@@ -31,12 +31,12 @@ $("body").on("click",  "#city-history button", function() {
  HistoryFlag = 0;
 })
 
-//use the open weather map to get the lat and lon of user requested city
+
 function requestWeatherData() {
   var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + userCity + "&units=metric&appid=" + APIKey;
-  fetch(queryURL)
-  .then(function (response) {
-    return response.json();
+  $.ajax({
+    url: queryURL,
+    method: "GET"
   })
   .then(function (data){
     console.log("data");
@@ -47,8 +47,6 @@ function requestWeatherData() {
       var cityLon = data.coord.lon;
       oneCallApi(cityLat, cityLon);
       
-
-
   });
   //console.log(data.weather[0].description);
 }
@@ -97,37 +95,7 @@ function currentForecast(currentWeather) {
   addUvIndex(uvi);
   }
 
-/*function addUvIndex(uv_index) {
-  //determine the level of uv index and add appropriate css colour class
-  //levels from WHO
-  //Low 1-2, green
-  //Moderate: 3-5, yellow
-  //High: 6-7, orange
-  //V high: 8-10, red
-  //Extreme: 11+, purple
-  var uv_index = "";
-  if(uv_index <= 2) {
-    console.log("green");
-    $("#uv-index").append($("<h5>").text("UV Index: " + Math.round(uv_index) + ", " + "low"));
-  $("#uv-index").css({"background-color":"green"});
-  } else if (uv_index > 2 && uv_index <= 5) {
-    console.log("yellow");
-    $("#uv-index").append($("<h5>").text("UV Index: " + Math.round(uv_index) + ", " + "Moderate"));
-    $("#uv-index").css({"background-color":"yellow"});
-  } else if (uv_index > 5 && uv_index <= 7) {
-    console.log("orange");
-    $("#uv-index").append($("<h5>").text("UV Index: " + Math.round(uv_index) + ", " + "High"));
-    $("#uv-index").css({"background-color":"orange", "display":"inline-block"});
-  } else if (uv_index > 7 && uv_index <= 10) {
-    console.log("red");
-    $("#uv-index").append($("<h5>").text("UV Index: " + Math.round(uv_index) + ", " + "Very High"));
-  $("#uv-index").css({"background-color":"red", "display":"inline-block"});
-  } else {
-    console.log(purple);
-    $("#uv-index").append($("<h5>").text("UV Index: " + Math.round(uv_index) + ", " + "Extreme"));
-  $("#uv-index").css({"background-color":"purple"});
-  }  
-}*/
+
 
 function addUvIndex(uv_index) {
   //determine the level of uv index and add appropriate css colour class
@@ -160,18 +128,11 @@ function addUvIndex(uv_index) {
       uv_class = Math.round(uv_index) + ", " + "Extreme";
     $("#uv-index").css({"background-color":"purple", "display":"inline-block"});
     }
-  
-  
-    
+       
     $("#uv-index").append($("<h5>").text("UV Index: " + uv_class));
     
   }
   
-  
-
-
-
-
 
 //note: times are returned in UNIX format
 function fiveDayForeCast(results){
@@ -188,38 +149,35 @@ function fiveDayForeCast(results){
       console.log(results.daily[i].temp.day);
       console.log(results.daily[i].wind_speed);
       console.log(results.daily[i].humidity);
-  //select card group container
+    //select card group container
    
-   var dailyCard = $("<div>").css({"background":"linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)"
-   }); //create card div 
-   dailyCard.attr("class", "card");
-  //daily icon   
-  var icon = results.daily[i].weather[0].icon; 
-  var dailyIcon = 'https://openweathermap.org/img/wn/'+icon+'@2x.png';
-  var dailyImg = $("<img>").addClass("card-img-top");
-  dailyImg.attr('src', dailyIcon);  
+    var dailyCard = $("<div>").css({"background":"linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)"}); //create card div 
+    dailyCard.attr("class", "card");
+    //daily icon   
+    var icon = results.daily[i].weather[0].icon; 
+    var dailyIcon = 'https://openweathermap.org/img/wn/'+icon+'@2x.png';
+    var dailyImg = $("<img>").addClass("card-img-top");
+    dailyImg.attr('src', dailyIcon);  
  
-  //daily description
-  var dailydescription = $("<p>").text(results.daily[i].weather[0].description);
-  dailydescription.attr("class", "text-center");
-  var dailyTemp = $("<p>").text("Temp: " + Math.round(results.daily[i].temp.day) + " \u00B0C");
-  dailyTemp.attr("class", "text-center");
-  var dailyHumidity = $("<p>").text("Humidity: " + Math.round(results.daily[i].wind_speed) + "%");
-  dailyHumidity.attr("class", "text-center");
-  var dailyWind = $("<p>").text("Wind: " + Math.round(results.daily[i].wind_speed) + "m/s");
-  dailyWind.attr("class", "text-center");
+    //daily description
+    var dailydescription = $("<p>").text(results.daily[i].weather[0].description);
+    dailydescription.attr("class", "text-center");
+    var dailyTemp = $("<p>").text("Temp: " + Math.round(results.daily[i].temp.day) + " \u00B0C");
+    dailyTemp.attr("class", "text-center");
+    var dailyHumidity = $("<p>").text("Humidity: " + Math.round(results.daily[i].wind_speed) + "%");
+    dailyHumidity.attr("class", "text-center");
+    var dailyWind = $("<p>").text("Wind: " + Math.round(results.daily[i].wind_speed) + "m/s");
+    dailyWind.attr("class", "text-center");
     
-  //date footer 
-  var dailyFooter = $("<div>").css({"background-color": "#7C9F92"}); //create card div 
-  dailyFooter.attr("class", "card-footer");
-  var date = ts.toDateString();
-  var dailyDate = $("<p>").text(date);
-  dailyFooter.append(dailyDate);
+    //date footer 
+    var dailyFooter = $("<div>").css({"background-color": "#7C9F92"}); //create card div 
+    dailyFooter.attr("class", "card-footer");
+    var date = ts.toDateString();
+    var dailyDate = $("<p>").text(date);
+    dailyFooter.append(dailyDate);
   
-  dailyCard.append(dailyImg, dailydescription, dailyTemp, dailyHumidity, dailyWind, dailyFooter);  
-  $("#five-day").append(dailyCard);
-  
-  
+    dailyCard.append(dailyImg, dailydescription, dailyTemp, dailyHumidity, dailyWind, dailyFooter);  
+    $("#five-day").append(dailyCard);  
   }
   storeCityName(userCity);
   renderCityHistory();
@@ -233,10 +191,10 @@ function oneCallApi(lat, lon) {
       url: queryURL2,
       method: "GET"
   }).then(function (results) {
-    console.log("onecall");
-    console.log(results);
-    currentForecast(results);
-    fiveDayForeCast(results);
+      console.log("onecall");
+      console.log(results);
+      currentForecast(results);
+      fiveDayForeCast(results);
   });
 };
 
