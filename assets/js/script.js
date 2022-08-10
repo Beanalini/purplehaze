@@ -117,11 +117,11 @@ function addUvIndex(uv_index) {
   } else if (uv_index > 5 && uv_index <= 7) {
     console.log("orange");
     $("#uv-index").append($("<h5>").text("UV Index: " + Math.round(uv_index) + ", " + "High"));
-    $("#uv-index").css({"background-color":"orange"});
+    $("#uv-index").css({"background-color":"orange", "display":"inline-block"});
   } else if (uv_index > 7 && uv_index <= 10) {
     console.log("red");
     $("#uv-index").append($("<h5>").text("UV Index: " + Math.round(uv_index) + ", " + "Very High"));
-  $("#uv-index").css({"background-color":"red"});
+  $("#uv-index").css({"background-color":"red", "display":"inline-block"});
   } else {
     console.log(purple);
     $("#uv-index").append($("<h5>").text("UV Index: " + Math.round(uv_index) + ", " + "Extreme"));
@@ -148,7 +148,7 @@ function fiveDayForeCast(results){
       console.log(results.daily[i].humidity);
   //select card group container
    
-   var dailyCard = $("<div>"); //create card div 
+   var dailyCard = $("<div>").css({"background-color":"#AFE5F3"}); //create card div 
    dailyCard.attr("class", "card");
   //daily icon   
   var icon = results.daily[i].weather[0].icon; 
@@ -167,7 +167,7 @@ function fiveDayForeCast(results){
   dailyWind.attr("class", "text-center");
     
   //date footer 
-  var dailyFooter = $("<div>"); //create card div 
+  var dailyFooter = $("<div>").css({"background-color":"#28BFE4"}); //create card div 
   dailyFooter.attr("class", "card-footer");
   var date = ts.toDateString();
   var dailyDate = $("<p>").text(date);
