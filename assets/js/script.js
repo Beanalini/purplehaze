@@ -129,7 +129,7 @@ function addUvIndex(uv_index) {
   }
   
 
-//Extract 5 day forcast, create elements and add forecast for each day to a card 
+//Extract 5 day forecast, create elements and add the forecast conditions for each day 
 function fiveDayForeCast(results){
   //add title for 5 day forecast
   $("#fiveDayTitle").text("Five Day Outlook")
