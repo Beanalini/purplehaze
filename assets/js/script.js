@@ -129,17 +129,17 @@ function addUvIndex(uv_index) {
   }
   
 
-//note: times are returned in UNIX format
+//Extract 5 day forcast, create elements and add forecast for each day to a card 
 function fiveDayForeCast(results){
-  
+  //add title for 5 day forecast
   $("#fiveDayTitle").text("Five Day Outlook")
   $("#five-day").empty();
+//loop through the first 5 entries of daily weather, extract metrics for each day and append to weather card
  for (i = 1; i < 6; i++) {
       var unixDate = results.daily[i].dt;
       var ts = new Date(unixDate*1000);
       
-    //select card group container
-   
+    //create card container   
     var dailyCard = $("<div>").css({"background":"linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)"}); //create card div 
     dailyCard.attr("class", "card");
     //daily icon   
@@ -151,6 +151,7 @@ function fiveDayForeCast(results){
     //daily description
     var dailydescription = $("<p>").text(results.daily[i].weather[0].description);
     dailydescription.attr("class", "text-center");
+    //daily metrics
     var dailyTemp = $("<p>").text("Temp: " + Math.round(results.daily[i].temp.day) + " \u00B0C");
     dailyTemp.attr("class", "text-center");
     var dailyHumidity = $("<p>").text("Humidity: " + Math.round(results.daily[i].wind_speed) + "%");
@@ -158,21 +159,23 @@ function fiveDayForeCast(results){
     var dailyWind = $("<p>").text("Wind: " + Math.round(results.daily[i].wind_speed) + "m/s");
     dailyWind.attr("class", "text-center");
     
-    //date footer 
+    //daily footer 
     var dailyFooter = $("<div>").css({"background-color": "#7C9F92"}); //create card div 
     dailyFooter.attr("class", "card-footer");
     var date = ts.toDateString();
     var dailyDate = $("<p>").text(date);
     dailyFooter.append(dailyDate);
-  
+    //append dailiy img, description, metrics and footer to the daily card  
     dailyCard.append(dailyImg, dailydescription, dailyTemp, dailyHumidity, dailyWind, dailyFooter);  
     $("#five-day").append(dailyCard);  
   }
+  //store city to local storage 
   storeCityName(userCity);
+  //call renderCityName to display city name if not already already in storage
   renderCityHistory();
 }
 
-//remove hourly and minutely data
+//request weather data from onecall openweather API. Search string excludes hourly and minutely data since they are not required
 function oneCallApi(lat, lon) {
   //var apiKey = "6406ca836e96fe35d13d0645f945ad0b"; &exclude=minutely,hourly
   var queryURL2 = "https://api.openweathermap.org/data/3.0/onecall?lat=" + lat + "&lon=" + lon + "&exclude=hourly,minutely&units=metric&appid=" + APIKey;
@@ -189,19 +192,18 @@ function oneCallApi(lat, lon) {
 
 
 function storeCityName(cityName) {
-//check to see if local storage exists 
+  /*The HistoryFlag is used to indicate whether the user clicked the submit or stored history button.HistoryFlag = 1 means the user clicked the submit button, store the city name to local storage. Else if HistoryFlag = 0, the user clicked a history button - city name is already in storage  */
   if(HistoryFlag === 1){
-    //var cityHistory = JSON.parse(localStorage.getItem("storedCity"));
+    //check to see if local storage exists 
     var cityHistory = localStorage.getItem("storedCity");
     cityHistory = (cityHistory) ? JSON.parse(cityHistory) : [];
     console.log("inside stored City");
-
 
     //city history is limited to storing 8 cities
     if(cityHistory.length === 8){
       cityHistory.shift(); //removes first element
     }
-
+    //add city name to local storage
     cityHistory.push(cityName);
     localStorage.setItem("storedCity", JSON.stringify(cityHistory));
     console.log(cityHistory);
@@ -212,8 +214,9 @@ function storeCityName(cityName) {
   console.log(HistoryFlag);
 }
 
+//renderCityHistory() displays the city names stored in local storage.  
 function renderCityHistory() {
-  
+  //if no city names exist in local storage - nothing to display(initalisation phase)
   if(localStorage.getItem("storedCity") === null) {
 
     console.log(" Item does not exist in local storage");
@@ -231,8 +234,5 @@ function renderCityHistory() {
       $(cityHistBtn).css({"background-color": "#65ACAF", "margin-bottom": "10px", "padding": "5px"});
       $("#city-history").append(cityHistBtn);
     }
-
-  }
-  
-  
+  }    
 }  
