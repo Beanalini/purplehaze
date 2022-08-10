@@ -1,6 +1,6 @@
 let userCity;
 var APIKey = "ac2501a6a6e32fdc527f00b094aaa6ad";
-var HistoryFlag = 1;
+var HistoryFlag = 1; //1 indicates click from submit button
 
 //call function to display any previous searches savedin local storage
 renderCityHistory();
@@ -28,7 +28,7 @@ $("body").on("click",  "#city-history button", function() {
  userCity = $(this).attr("id");
  console.log("history"+ userCity);
  requestWeatherData();
- HistoryFlag = 0;
+ HistoryFlag = 0; //Change value of flag to indicate user click came from history button
 })
 
 //request data from the openweather map API
@@ -208,7 +208,7 @@ function storeCityName(cityName) {
     localStorage.setItem("storedCity", JSON.stringify(cityHistory));
     console.log(cityHistory);
   } else {
-    /*History flag is used to skip storing city when the button click event originates from the history button*/
+    /*History flag is used to skip storing city when the button click event originates from the history button set it back to 1 since user click came from history button*/
     HistoryFlag = 1;
   }
   console.log(HistoryFlag);
