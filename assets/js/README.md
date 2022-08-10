@@ -65,23 +65,21 @@ THEN I am again presented with current and future conditions for that city
 
 Inital state of the Weather Dashboard Landing page beforeprior to the user having made any searches.
 
-![weather dashboard landing page](assets/images/initial-landing-page.png)
+![weather dashboard landing page](./assets/images/initial-landing-page.png)
 
 
-Quiz Page with muliple choice questions - showing answer selection correct.
+Weather Dashboard page after user has entered a city name. Previous city search buttons are shown below the submit button and allow the user to click on the city button to diplay the current and 5-day forecast.
 
 
-![question page](assets/images/)
+![question page](./assets/images/city-search.png)
 
-Quiz over page with option to save user initials and score details to the leader board.
-
-
-![question page](assets/images/quiz-end.PNG)
+WHen the user reloads their browser they are presented with the submit button and previous search history buttons.
 
 
-Leader board page showing current high score.
+![question page](./assets/images/reload-search-history.png)
 
-![question page](assets/images/leader-board.PNG)
+
+
 ## Deployed Website
 ---
 
