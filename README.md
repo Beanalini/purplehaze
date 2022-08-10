@@ -55,6 +55,7 @@ THEN I am again presented with current and future conditions for that city
 - Type a city name into the search form input box and click the submit button to display the weather for the city requested.
 - The user is presented with the current weather forecast and a 5-day weather outlook.  
 - Current weather information displays an icon representation of the weather condition, along with a description; date and time, temperature, windspeed, humidity and UV index. The units of measurement for the weather conditions is presented in metric units. in The value of UV index is displayed along with its category and colour classification in line with the  global solar index.
+- A Five day outlook giving a weather description along with an icon representation, temperature, humidity, wind speed  and the date is displayed, for each day, below the current forecast.
 - The name of the searched city will immediately appear in the search history below the submit button, and is stored locally allowing the user to access previous searches. 
 - Click a search history city button to view the weather conditions for that city.
 - On web browser reload, search history is displayed allowing the user to click on the city to view current and 5-day weather conditions. 
