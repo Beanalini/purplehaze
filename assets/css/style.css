@@ -7,9 +7,10 @@ html, body {
   font-size: 18px;
   line-height: 1;
   /*background-image: linear-gradient(to bottom, #313705, #1c562d, #007369, #008eaf, #12a0eb);*/
-  background:#dbf6ea
+  /*background:#dbf6ea
   /*max-height: 100vh;*/
-}
+  
+  background: #dbf6ea;}
 
 .jumbotron {
   text-align: center;
@@ -21,14 +22,7 @@ html, body {
   margin-bottom: 20px;
   padding-top: 20px;
 }
-.hide {
-  display:none;
-}
 
-.show {
-  display:block;
-  
-}
 .test {
   
   width: 80%;
@@ -40,4 +34,9 @@ html, body {
 
 #currentCard {
   display: none;
+}
+.metrics {
+  /*background-color:#fcfff4;*/
+  background: linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%);
+
 }

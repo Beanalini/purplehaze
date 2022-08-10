@@ -97,7 +97,7 @@ function currentForecast(currentWeather) {
   addUvIndex(uvi);
   }
 
-function addUvIndex(uv_index) {
+/*function addUvIndex(uv_index) {
   //determine the level of uv index and add appropriate css colour class
   //levels from WHO
   //Low 1-2, green
@@ -105,7 +105,7 @@ function addUvIndex(uv_index) {
   //High: 6-7, orange
   //V high: 8-10, red
   //Extreme: 11+, purple
-  var uv_class = "";
+  var uv_index = "";
   if(uv_index <= 2) {
     console.log("green");
     $("#uv-index").append($("<h5>").text("UV Index: " + Math.round(uv_index) + ", " + "low"));
@@ -126,11 +126,53 @@ function addUvIndex(uv_index) {
     console.log(purple);
     $("#uv-index").append($("<h5>").text("UV Index: " + Math.round(uv_index) + ", " + "Extreme"));
   $("#uv-index").css({"background-color":"purple"});
+  }  
+}*/
+
+function addUvIndex(uv_index) {
+  //determine the level of uv index and add appropriate css colour class
+  //levels from WHO
+  //Low 1-2, green
+  //Moderate: 3-5, yellow
+  //High: 6-7, orange
+  //V high: 8-10, red
+  //Extreme: 11+, purple
+  var uv_index = "";
+  var uv_class;
+    if(uv_index <= 2) {
+        console.log("green");
+        uv_class = Math.round(uv_index) + ", " + "low";
+        $("#uv-index").css({"background-color":"green", "display":"inline-block"});
+    } else if (uv_index > 2 && uv_index <= 5) {
+      console.log("yellow");
+        uv_class = Math.round(uv_index) + ", " + "Moderate";
+      $("#uv-index").css({"background-color":"yellow", "display":"inline-block"});
+    } else if (uv_index > 5 && uv_index <= 7) {
+      console.log("orange");
+      uv_class = Math.round(uv_index) + ", " + "High";
+      $("#uv-index").css({"background-color":"orange", "display":"inline-block"});
+    } else if (uv_index > 7 && uv_index <= 10) {
+      console.log("red");
+      uv_class = Math.round(uv_index) + ", " + "Very High";
+      $("#uv-index").css({"background-color":"red", "display":"inline-block"});
+    } else {
+      console.log(purple);
+      uv_class = Math.round(uv_index) + ", " + "Extreme";
+    $("#uv-index").css({"background-color":"purple", "display":"inline-block"});
+    }
+  
+  
+    
+    $("#uv-index").append($("<h5>").text("UV Index: " + uv_class));
+    
   }
   
   
-  
-}
+
+
+
+
+
 //note: times are returned in UNIX format
 function fiveDayForeCast(results){
   console.log("daily: " + results.daily.length)
@@ -148,7 +190,8 @@ function fiveDayForeCast(results){
       console.log(results.daily[i].humidity);
   //select card group container
    
-   var dailyCard = $("<div>").css({"background-color":"#AFE5F3"}); //create card div 
+   var dailyCard = $("<div>").css({"background":"linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)"
+   }); //create card div 
    dailyCard.attr("class", "card");
   //daily icon   
   var icon = results.daily[i].weather[0].icon; 
@@ -167,7 +210,7 @@ function fiveDayForeCast(results){
   dailyWind.attr("class", "text-center");
     
   //date footer 
-  var dailyFooter = $("<div>").css({"background-color":"#28BFE4"}); //create card div 
+  var dailyFooter = $("<div>").css({"background-color": "#7C9F92"}); //create card div 
   dailyFooter.attr("class", "card-footer");
   var date = ts.toDateString();
   var dailyDate = $("<p>").text(date);
