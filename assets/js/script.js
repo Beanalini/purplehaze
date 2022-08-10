@@ -2,10 +2,10 @@ let userCity;
 var APIKey = "ac2501a6a6e32fdc527f00b094aaa6ad";
 var HistoryFlag = 1;
 
-
+//call function to display any previous searches savedin local storage
 renderCityHistory();
 
-//Submit button clicked by user 
+//called when the user clicks the Submit button 
 $(submitBtn).on('click', function(event){
   event.preventDefault();
   userCity = $('#city-input').val().trim();
@@ -21,7 +21,7 @@ $(submitBtn).on('click', function(event){
 
 
 
-//search history button clicked
+//user has clicked on one of the saved locations displayed below the submit button
 $("body").on("click",  "#city-history button", function() {
   //event.prevent.Default();
  console.log("inside search button click function");
@@ -31,7 +31,7 @@ $("body").on("click",  "#city-history button", function() {
  HistoryFlag = 0;
 })
 
-
+//request data from the openweather map API
 function requestWeatherData() {
   var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + userCity + "&units=metric&appid=" + APIKey;
   $.ajax({
@@ -45,16 +45,15 @@ function requestWeatherData() {
       //console.log(data.weather[0].description);
       var cityLat = data.coord.lat;
       var cityLon = data.coord.lon;
+      //pass latatitue and longitude to the opencall API to request current, 5-day and UV index data
       oneCallApi(cityLat, cityLon);
       
   });
-  //console.log(data.weather[0].description);
+  
 }
 
-
-
 function currentForecast(currentWeather) {
-  //remove previous weather image
+  //remove previous classes etx from the DOM
    $("#date").empty();
    $("#temp").empty();
    $("#humidity").empty();
@@ -62,6 +61,7 @@ function currentForecast(currentWeather) {
    $("#uv-index").empty();
    $("#today-image").empty();
    $("#currentCard").css("display", "flex");
+   //extract weather metrics
   var temp = currentWeather.current.temp;
   var humidity = currentWeather.current.humidity;
   var windSpeed = currentWeather.current.wind_speed;
@@ -71,14 +71,10 @@ function currentForecast(currentWeather) {
   
   console.log ("today" + ", " + temp + ", " + humidity + ", " + windSpeed + ", " + icon + ", " + weather)
   $("#city-title").text("Weather Forecast for  " + userCity);
-  
-  
-  console.log(currentWeatherImg);
-  //city title
-  
-  
+    
   //current description
   
+  //Create <img> element and append weather image
   var currentWeatherImg = 'https://openweathermap.org/img/wn/'+icon+'@2x.png';
   $("#today-image").append($("<h4>").text(weather).attr("class", "text-center"));
   var iconImg = $("<img>");
@@ -86,17 +82,16 @@ function currentForecast(currentWeather) {
   iconImg.attr("class", "card-img");
   $("#today-image").append(iconImg);
   
-  //Metrics
+  //append weather metrics to html elements
   $("#date").text(moment().format('LLLL')).css({"margin-top": "10px"});
   $("#temp").append($("<h2>").text(Math.round(temp) + " \u00B0C")).css({"margin-top": "20px"});
   $("#humidity").append($("<h5>").text("Humidity: " + Math.round(humidity) + " %"));
   $("#wind-speed").append($("<h5>").text("Wind speed: " + Math.round(windSpeed) + " m/s"));
-  //call function to add uvi
+  //call function to add uv index to the current weather card
   addUvIndex(uvi);
   }
 
-
-
+//Given the value of the UV index, assign it a classification depending on the range it falls into
 function addUvIndex(uv_index) {
   //determine the level of uv index and add appropriate css colour class
   //levels from WHO
@@ -136,19 +131,13 @@ function addUvIndex(uv_index) {
 
 //note: times are returned in UNIX format
 function fiveDayForeCast(results){
-  console.log("daily: " + results.daily.length)
+  
   $("#fiveDayTitle").text("Five Day Outlook")
   $("#five-day").empty();
  for (i = 1; i < 6; i++) {
       var unixDate = results.daily[i].dt;
       var ts = new Date(unixDate*1000);
-      console.log(ts.toDateString());
-      console.log("index: " + i);
-      console.log(results.daily[i].weather[0].icon);
-      console.log(results.daily[i].weather[0].description);
-      console.log(results.daily[i].temp.day);
-      console.log(results.daily[i].wind_speed);
-      console.log(results.daily[i].humidity);
+      
     //select card group container
    
     var dailyCard = $("<div>").css({"background":"linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)"}); //create card div 

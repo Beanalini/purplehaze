@@ -1,15 +1,9 @@
-/*.row {
-  display: flex;
-}*/
+  
 
 html, body {
   font-family: 'Oswald', sans-serif;  
   font-size: 18px;
-  line-height: 1;
-  /*background-image: linear-gradient(to bottom, #313705, #1c562d, #007369, #008eaf, #12a0eb);*/
-  /*background:#dbf6ea
-  /*max-height: 100vh;*/
-  
+  line-height: 1;    
   background: #dbf6ea;}
 
 .jumbotron {
